@@ -1,3 +1,6 @@
+# reactshop
+App based in the book React with Typescript 3 by Carl Rippon
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
