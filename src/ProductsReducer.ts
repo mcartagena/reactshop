@@ -18,6 +18,7 @@ export const productsReducer: Reducer<IProductsState, ProductsActions> = (
     case ProductsActionTypes.LOADING: {
       return {
         ...state,
+        products: [],
         productsLoading: true
       };
     }
@@ -31,6 +32,7 @@ export const productsReducer: Reducer<IProductsState, ProductsActions> = (
   }
   return {
     ...state,
+    products: [],
     productsLoading: false
   };
 };

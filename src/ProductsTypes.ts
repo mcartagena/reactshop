@@ -19,7 +19,7 @@ export enum ProductsActionTypes {
   | IProductsLoadingAction
 
   export interface IProductsState {
-    readonly products?: IProduct[];
+    readonly products: IProduct[];
     readonly productsLoading: boolean;
   }
   
