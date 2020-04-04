@@ -13,11 +13,12 @@ afterEach(cleanup);
 
 describe("ContactUs", () => {
   test("When submit without filling in fields should display errors", () => {
-    const handleSubmit = async (): Promise<ISubmitResult> => {
+    /* const handleSubmit = async (): Promise<ISubmitResult> => {
       return {
         success: true
       };
-    };
+    }; */
+    const handleSubmit = jest.fn();
 
     const { getAllByText, getByText } = render(
       <ContactUs onSubmit={handleSubmit} />
@@ -28,14 +29,16 @@ describe("ContactUs", () => {
 
     const errorSpans = getAllByText("This must be populated");
     expect(errorSpans.length).toBe(2);
+
+    expect(handleSubmit).not.toBeCalled();
   });
 
   test("When submit after filling in fields should submit okay", () => {
-    const handleSubmit = async (): Promise<ISubmitResult> => {
-      return {
-        success: true
-      };
-    };
+    const handleSubmit = jest.fn();
+    handleSubmit.mockReturnValue({
+      success: true
+    });
+
     const { container, getByText, getByLabelText } = render(
       <ContactUs onSubmit={handleSubmit} />
     );
@@ -57,15 +60,20 @@ describe("ContactUs", () => {
 
     const submitButton = getByText("Submit");
     fireEvent.click(submitButton);
-    
-    fireEvent.click(submitButton); 
 
     const errorsDiv = container.querySelector("[data-testid='formErrors']");
     expect(errorsDiv).toBeNull();
 
     const errorSpans = container.querySelectorAll(".form-error");
-    expect(errorSpans.length).toBe(0);    
-    
+    expect(errorSpans.length).toBe(0);
+
+    expect(handleSubmit).toBeCalledTimes(1);
+    expect(handleSubmit).toBeCalledWith({
+      name: "Marcelo",
+      email: "marcecarta@hotmail.com",
+      reason: "Support",
+      notes: ""
+    });
   });
 
   test("Renders okay", () => {
@@ -77,7 +85,5 @@ describe("ContactUs", () => {
     const { container } = render(<ContactUs onSubmit={handleSubmit} />);
 
     expect(container).toMatchSnapshot();
-    
   });
-
 });
