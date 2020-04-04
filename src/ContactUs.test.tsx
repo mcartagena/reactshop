@@ -7,7 +7,7 @@ import ContactUs from "./ContactUs";
 
 import { ISubmitResult } from "./Form";
 
-import { render, cleanup} from "@testing-library/react";
+import { render, cleanup, fireEvent } from "@testing-library/react";
 
 afterEach(cleanup);
 
@@ -19,17 +19,15 @@ describe("ContactUs", () => {
       };
     };
 
-    const { container, getAllByText } = render(
+    const { getAllByText, getByText } = render(
       <ContactUs onSubmit={handleSubmit} />
     );
-  
-    const form = container.querySelector("form");
-    expect(form).not.toBeNull();
-    Simulate.submit(form!);
+
+    const submitButton = getByText("Submit");
+    fireEvent.click(submitButton);
 
     const errorSpans = getAllByText("This must be populated");
     expect(errorSpans.length).toBe(2);
-
-    ReactDOM.unmountComponentAtNode(container);
+    
   });
 });
