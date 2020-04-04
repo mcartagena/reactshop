@@ -28,6 +28,44 @@ describe("ContactUs", () => {
 
     const errorSpans = getAllByText("This must be populated");
     expect(errorSpans.length).toBe(2);
+  });
+
+  test("When submit after filling in fields should submit okay", () => {
+    const handleSubmit = async (): Promise<ISubmitResult> => {
+      return {
+        success: true
+      };
+    };
+    const { container, getByText, getByLabelText } = render(
+      <ContactUs onSubmit={handleSubmit} />
+    );
+
+    const nameField: HTMLInputElement = getByLabelText(
+      "Your name"
+    ) as HTMLInputElement;
+    expect(nameField).not.toBeNull();
+
+    fireEvent.change(nameField, {
+      target: { value: "Marcelo" }
+    });
+
+    const emailField = getByLabelText("Your email address") as HTMLInputElement;
+    expect(emailField).not.toBeNull();
+    fireEvent.change(emailField, {
+      target: { value: "marcecarta@hotmail.com" }
+    });
+
+    const submitButton = getByText("Submit");
+    fireEvent.click(submitButton);
     
+    fireEvent.click(submitButton); 
+
+    const errorsDiv = container.querySelector("[data-testid='formErrors']");
+    expect(errorsDiv).toBeNull();
+
+    const errorSpans = container.querySelectorAll(".form-error");
+    expect(errorSpans.length).toBe(0);    
+    
+    // TODO - render component, fill in fields, submit the form and check there are no errors
   });
 });
