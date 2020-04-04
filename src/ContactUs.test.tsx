@@ -66,6 +66,18 @@ describe("ContactUs", () => {
     const errorSpans = container.querySelectorAll(".form-error");
     expect(errorSpans.length).toBe(0);    
     
-    // TODO - render component, fill in fields, submit the form and check there are no errors
   });
+
+  test("Renders okay", () => {
+    const handleSubmit = async (): Promise<ISubmitResult> => {
+      return {
+        success: true
+      };
+    };
+    const { container } = render(<ContactUs onSubmit={handleSubmit} />);
+
+    expect(container).toMatchSnapshot();
+    
+  });
+
 });
